@@ -3,14 +3,20 @@
 
 #include <exception>
 
-class Bad_request{
+class Bad_request : public std :: exception{
 public:
-    std :: string what(){ return "Bad Request"; }
+    virtual const char* what() const throw(){ return "Bad Request"; }
 };
 
-class Bad_permission{
+class Bad_permission : public std :: exception{
 public:
-    std :: string what(){ return "Permission Denied"; }
+    virtual const char* what() const throw(){ return "Permission Denied"; }
 }; 
+
+class Error_exception : public std:: exception{
+    virtual const char* what() const throw(){ return "ERROR!"; }
+};
+
+class doesnt_exist : public std :: exception{};
 
 #endif

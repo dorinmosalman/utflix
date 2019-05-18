@@ -5,6 +5,15 @@
 #include "Exceptions.h"
 #include "Manager.h"
 #include "Profile.h"
+#include "Film.h"
+#include "Login.h"
+#include "Signup.h"
+#include "Films.h"
+#include "Followers.h"
+#include "Money.h"
+#include "Buy.h"
+#include "Rate.h"
+#include "Notifications.h"
 
 class Command{
 public:
@@ -19,11 +28,13 @@ protected:
     
     int string_to_int(std :: string);
 
-    void command_valid();
-    void signup(Manager* manager);
-    void login(Manager* manager);
-    void post(Manager* manager);
-    void post_film(Manager* manager);
+    // void command_valid();
+  //  void signup(Manager* manager);
+    // void login(Manager* manager);
+    // void post(Manager* manager);
+    // void put(Manager* manager);
+    // void post_film(Manager* manager);
+    // void edit_film(Manager* manager);
 
 };
 

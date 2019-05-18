@@ -2,11 +2,7 @@
 #include <string>
 using namespace std;
 
-#include "Profile.h"
-#include "Manager.h"
 #include "Interface.h"
-#include "Command.h"
-#include "Post.h"
 
 
 int main(){

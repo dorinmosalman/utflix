@@ -14,10 +14,19 @@ public:
         : Profile(init_email, init_username, init_password, init_age, init_id){}
     virtual void view();
 
-    virtual void add_film(std :: string name, int year, int length, int price, std :: string summary, std :: string director, int id);
+    virtual Film* add_film(std :: string name, int year, int length, int price, std :: string summary, std :: string director, int id);
+    virtual Film* find_film(int id);
+    virtual int get_film_order(int id);
+    virtual void delete_film(int id);
+    virtual void is_publisher();
+    virtual void add_followers(Profile* profile);
+    virtual void show_followers();
+    virtual void get_money(int added_money);
+    virtual void send_notif_followers(std :: string msg);
 
 protected:
     std :: vector<Film*> films;
+    std :: vector<Profile*> followers;
 
 };
 

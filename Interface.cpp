@@ -37,9 +37,7 @@ void Interface :: run(){
         std :: cout << "line : " << line_count <<  std :: endl;
         try{
             std :: vector<std :: string> *words;
-            std :: cout << "vector made" << std :: endl;
             words = read_line(line);
-            std :: cout << "lines read" << std :: endl;
             // for(int i = 0 ; i < words.size() ; i++)
             //     std :: cout << words[i]  << "."<< std :: endl;
             Command command(*words);
@@ -53,4 +51,6 @@ void Interface :: run(){
     }
     std :: cout << "*********" << std :: endl;
     manager->view_profiles();
+    manager->view_films();
+    std :: cout << "total netflix money= " << manager->total_money() << std :: endl;
 }
