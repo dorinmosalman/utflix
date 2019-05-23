@@ -1,8 +1,5 @@
 #include "User.h"
 
-void User :: view(){
-    std :: cout << "User with username: " << username << "and id: " << id << " and money= " << money << " and notifications= " << notifications.size() <<  std :: endl;
-}
 
 Film* User :: find_film(int id){
     throw Bad_permission();
@@ -17,8 +14,7 @@ void User :: delete_film(int id){
 }
 
 void User :: is_publisher(){
-    std :: cout << "id " << id << "is not a publisher" << std :: endl;
-    throw Bad_request();
+    throw Bad_permission();
 }
 
 void User :: add_followers(Profile* profile) {
@@ -35,4 +31,16 @@ void User :: get_money(int added_money){
 
 void User :: send_notif_followers(std :: string msg){
     throw Bad_request();
+}
+
+void User :: has_published(int film_id){
+    throw Bad_permission();
+}
+
+std :: vector<Film*> User ::  get_films(){
+    throw Bad_request();
+}
+
+void User :: show_published(std :: vector<std :: string> words){
+    throw Bad_permission();
 }

@@ -12,6 +12,10 @@ public:
     void put(Manager* manager, std :: vector<std :: string> words);
     void delete_(Manager* manager, std :: vector<std :: string> words);
     void get(Manager* manager, std :: vector<std :: string> words);
+    void get2(Manager* manager, std :: vector <std :: string> words);
+private:
+    void get_with_id(Manager* manager, std :: vector<std :: string> words);
+    void get_total(Manager* manager, std :: vector<std :: string> words);
 };
 
 #endif

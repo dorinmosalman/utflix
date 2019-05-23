@@ -1,12 +1,12 @@
 #include "Profile.h"
 
-bool Profile :: check_password(int pass){
+bool Profile :: check_password(std :: string pass){
     if(pass == password)
         return true;
     return false;
 }
 
-void Profile :: login(int pass){
+void Profile :: login(std :: string pass){
     if(pass == password)
         login_sit = true;
     else
@@ -18,7 +18,7 @@ void Profile :: follow(Profile* publisher){
 }
 
 void Profile :: show_profile(){
-    std :: cout << "\t" << id << "\t" << SEPARATOR << "\t" << username << "\t" << SEPARATOR <<"\t"<< email << std :: endl;
+    std :: cout << id << SEPARATOR << username << SEPARATOR << email << std :: endl;
 }
 
 void Profile :: add_money(int amount){
@@ -36,7 +36,6 @@ bool Profile :: film_bought(int film_id){
 
 void Profile :: buy_film(Film* film){
     if(film_bought(film->get_id())){
-        std :: cout << "film bought" << std :: endl;
         throw Bad_request();
     }
     int price = film->get_price();
@@ -45,7 +44,6 @@ void Profile :: buy_film(Film* film){
     }
     bought_films.push_back(film);
     money -= price;
-    std :: cout << "push back in profile done" << std :: endl;
 }
 
 void Profile :: add_notif(std :: string msg){
@@ -55,7 +53,7 @@ void Profile :: add_notif(std :: string msg){
 void Profile :: show_notifs(){
     int row = 1;
     std :: cout << "#. Notification Message" << std :: endl;
-    for(int i = notifications.size()-1; i >= 0; i--){
+    for(int i = notifications.size()-1; i >= 0; --i){
         if(notifications[i]->is_read())
             continue;
         std :: cout << row <<". " << notifications[i]->get_msg() << std :: endl;
@@ -65,16 +63,25 @@ void Profile :: show_notifs(){
 }
 
 void Profile :: show_read_notifs(int limit){
-    std :: cout << "limit" << limit << std :: endl;
     int row = 1;
     std :: cout << "#. Notification Message" << std :: endl;
     for(int i = notifications.size()-1; i >= 0; i--){
         if(notifications[i]->is_read()){
         std :: cout << row <<". " << notifications[i]->get_msg() << std :: endl;
-        // notifications[i]->read();
         if(row == limit)
             return;
         row++;
+        }
+    }
+}
+
+void Profile :: show_purchased_films(std :: vector<std :: string> words){
+    int row =1;
+    for(int i = 0; i < bought_films.size(); i++){
+        if(bought_films[i]->is_qualified(words)){
+            std :: cout << row << ". ";
+            bought_films[i]->view_for_recoms();
+            row++;
         }
     }
 }

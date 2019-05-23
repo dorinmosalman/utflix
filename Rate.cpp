@@ -1,8 +1,9 @@
 #include "Rate.h"
 
 void Rate :: post(Manager* manager, std :: vector<std :: string> words){
+    if(words.size() < 3)
+        throw Bad_request();
     if(!(words[2] == "?")){
-        std :: cout << "sabet ha" << std :: endl;
         throw Bad_request();
     }
     int i = 3;
@@ -34,4 +35,5 @@ void Rate :: post(Manager* manager, std :: vector<std :: string> words){
     msg = "User " + loggedin_pro->get_user() + " with id " + std :: to_string(loggedin_pro->get_id()) 
     + " rate your film " + film->get_name() + "with id " + std :: to_string(film->get_id()) + ".";
     publisher->add_notif(msg);
+    std :: cout << "OK" << std :: endl;
 }

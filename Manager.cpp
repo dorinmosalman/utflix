@@ -1,43 +1,22 @@
 #include "Manager.h"
 
-void Manager :: add_profile(std :: string init_email, std :: string init_username, int init_password, int init_age){
-    try{
+void Manager :: add_profile(std :: string init_email, std :: string init_username, std :: string init_password, int init_age){
     new_pro_valid(init_username);
     profiles.push_back(new User(init_email, init_username, init_password, init_age, profiles.size()));
-    std :: cout << "user made" << std :: endl;
-    std :: cout << "OK" << std :: endl;
     loggedin_profile = profiles[profiles.size() - 1];
 
-    }catch(Bad_request ex){
-        std :: cout << ex.what() << std :: endl;
-    }
 }
 
-void Manager :: add_profile(std :: string init_email, std :: string init_username, int init_password, int init_age, bool is_publisher){
-    std :: cout << "**";
-    try{
-        new_pro_valid(init_username);   
-    std :: cout << "profile valid" << std :: endl;
+void Manager :: add_profile(std :: string init_email, std :: string init_username, std :: string init_password, int init_age, bool is_publisher){
+    
+    new_pro_valid(init_username);   
     if(is_publisher){
         profiles.push_back(new Publisher(init_email, init_username, init_password, init_age, profiles.size()));
-        std :: cout << "Publisher made" << std :: endl;
     }
     else{
         profiles.push_back(new User(init_email, init_username, init_password, init_age, profiles.size()));
-        std :: cout << "user made" << std :: endl;
     }
-    std :: cout << "OK" << std :: endl;
     loggedin_profile = profiles[profiles.size() - 1];
-
-    }catch(Bad_request ex){
-        std :: cout << ex.what() << std :: endl;
-    }
-}
-
-void Manager :: view_profiles(){
-    for(int i = 0 ; i < profiles.size() ; i++){
-        profiles[i]->view();
-    }
 }
 
 Profile* Manager :: find_profile(std :: string user){
@@ -48,16 +27,13 @@ Profile* Manager :: find_profile(std :: string user){
     throw Bad_request();
 }
 
-void Manager :: login(std :: string user, int pass){
-    try{
-        Profile* profile = find_profile(user);
-        profile->login(pass);
-        loggedin_profile = profile;
-        std :: cout << "OK" << std :: endl;
-        std :: cout << "login okay" << std :: endl;
-    } catch (Bad_request ex){
-        std :: cout << ex.what() << std :: endl;
-    }
+void Manager :: login(std :: string user, std :: string pass){
+    
+    Profile* profile = find_profile(user);
+    profile->login(pass);
+    loggedin_profile = profile;
+    std :: cout << "OK" << std :: endl;
+    
 }
 
 void Manager :: new_pro_valid(std :: string user){
@@ -76,22 +52,11 @@ void Manager :: add_film(Profile* publisher, std :: string name, int year, int l
 
 Film* Manager :: find_film(int film_id){
     for(int i = 0 ; i < total_films.size() ; i++){
-        std :: cout << "i= " << i << "\t id= " << total_films[i]->get_id() << "\t film_id= " << film_id<< std :: endl;
         if(film_id == total_films[i]->get_id()){
-            std :: cout << "found film" << std :: endl;
             return total_films[i];
         }
     }
-    std :: cout << "film not found" << std :: endl;
-    throw Bad_request();
-}
-
-void Manager :: view_films(){
-    for(int i = 0; i < total_films.size(); i++){
-        std :: cout << "film id: " << total_films[i]-> get_id() << std :: endl;
-        std :: cout << "film_name: " << total_films[i]->get_name() << std :: endl;
-        std :: cout << "film rate: " << total_films[i]->get_rate() << std :: endl;
-    }
+    throw Not_found();
 }
 
 int Manager :: get_film_order(int id){
@@ -115,11 +80,10 @@ Profile* Manager :: find_profile(int id){
             return profiles[i];
         }
     }
-    throw Bad_request();
+    throw Not_found();
 }
 
 void Manager :: buy_film(Film* film){
-    std :: cout << "manager buy film" << std :: endl;
     accounting->add_money(film);
 }
 
@@ -128,4 +92,44 @@ void Manager :: pub_get_money(int pub_id){
     Profile* publisher = find_profile(pub_id);
     publisher->get_money(added_money);
     
+}
+
+void Manager :: show_film_recoms(){
+    std :: cout << std :: endl << "Recommendation Film" << std :: endl << 
+    RECOM_HEADER << std :: endl;
+    Profile* profile = get_loggedin_pro();
+    int max = 11;
+    int show;
+    bool flag;
+    int row = 1;
+    for(int i = 0; i < 4; i++){
+        int min = 0;
+        flag = false;
+        for(int j = 0 ; j < total_films.size(); j++){
+            if(total_films[j]->get_rate() >= min && total_films[j]->get_rate() < max){
+                min = total_films[j]->get_rate();
+                if(!profile->film_bought(total_films[j]->get_id())){
+                    show = j;
+                    flag = true;
+                }
+
+            }
+
+            
+        }
+        if(flag){
+            std :: cout << row << ". ";
+            total_films[show]->view_for_recoms();
+            max = total_films[show]->get_rate();
+            row++;
+        }
+    }
+}
+
+
+Profile* Manager :: get_loggedin_pro(){
+    if(loggedin_profile == nullptr){
+        throw Bad_permission();
+    }
+    return loggedin_profile;
 }

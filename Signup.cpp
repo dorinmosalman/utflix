@@ -2,41 +2,67 @@
 
 
 void Signup :: post(Manager* manager, std :: vector<std :: string> words){
-    if(!(words[2] == "?" && words[3] == "email" && words[5] == "username" && words[7] == "password" 
-        && words[9] == "age")){
-        std :: cout << "sabet ha" << std :: endl;
+    if(words.size() < 3)
+        throw Bad_request();
+    if(words[2] != "?" || words.size() < 3){
         throw Bad_request();
     }
-    std :: cout << "signup in manager" << std :: endl;
     
-    std :: string email = words[4];
-    std :: string username = words[6];
-    int password = stoi(words[8]);  //password stringgg!!!!!!!
+    int i =3;
+    std :: string email , username , agest , password;
 
+    bool mail_given = false;
+    bool user_given = false;
+    bool password_given = false;
+    bool age_given = false;
+    bool pub_given = false;
+    bool pub_sit;
+    while(i < words.size()){
+        if(words[i] == "email"){
+            email = words[i+1];
+            mail_given = true;
+        }
+        else if(words[i] == "username"){
+            username = words[i+1];
+            user_given = true;
+        }
+        else if(words[i] == "password"){
+            password = words[i+1];
+            password_given = true;
+        }
+        else if(words[i] == "age"){
+            agest = words[i+1];
+            age_given = true;
+        }
+        else if(words[i] == "publisher"){
+            pub_given = true;
+            if(words[i+1] == "true"){
+                pub_sit = true;
+            }   
+            else if(words[i+1] == "false"){
+                pub_sit = false;
+            }
+        }
+        
+        i+=2;
+    }
     mail_valid(email);
-    age_valid(words[10]);
-    int age = stoi(words[10]);
-//    bool pub_sit;
-    if(words.size() == 13){
-        bool pub_sit;
-        if(words[11] != "publisher")
-            throw Bad_request();
-        else if(words[12] == "true"){
-            pub_sit = true;
-            std :: cout << "publisher situation is true" << std :: endl;
-        }
-        else{
-            pub_sit = false;
-            std :: cout << "publisher situation is false" << std :: endl;
-        }
-        std :: cout << "add profile" << std :: endl;
+    age_valid(agest);
+    int age = stoi(agest);
+
+    if(!(mail_given && user_given && password_given && age_given)){
+        throw Bad_request();
+    }
+
+    if(pub_given){
         manager->add_profile(email, username, password, age, pub_sit);
     }
     else{
-        std :: cout << "add profile" << std :: endl;
         manager->add_profile(email, username, password, age);
     }
 
+
+    std :: cout << "OK" << std :: endl;
 }
 
 

@@ -5,8 +5,9 @@ void Notifications :: get(Manager* manager){
 }
 
 void Notifications :: get(Manager* manager, std :: vector<std :: string> words){
+    if(words.size() < 4)
+        throw Bad_request();
     if(!(words[2] == "read" && words[3] == "?")){
-        std :: cout << "sabet ha" << std :: endl;
         throw Bad_request();
     }
     int i = 4, limit;

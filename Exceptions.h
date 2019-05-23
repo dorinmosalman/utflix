@@ -5,7 +5,7 @@
 
 class Bad_request : public std :: exception{
 public:
-    virtual const char* what() const throw(){ return "Bad Request"; }
+   virtual const char* what(){ return "Bad Request"; }
 };
 
 class Bad_permission : public std :: exception{
@@ -13,10 +13,8 @@ public:
     virtual const char* what() const throw(){ return "Permission Denied"; }
 }; 
 
-class Error_exception : public std:: exception{
-    virtual const char* what() const throw(){ return "ERROR!"; }
+class Not_found : public std :: exception{
+public:
+    virtual const char* what() const throw(){ return "Not Found"; }
 };
-
-class doesnt_exist : public std :: exception{};
-
 #endif

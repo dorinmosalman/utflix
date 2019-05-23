@@ -1,10 +1,13 @@
 #ifndef FILM_H
 #define FILM_H
 
+#define SEPARATOR " | "
+
 #include <iostream>
 #include <map>
 #include <vector>
 #include "Comment.h"
+#include "Exceptions.h"
 
 class Film{
 public:
@@ -17,13 +20,26 @@ public:
     void change_length(int init_length){ length = init_length; }
     void change_summary(std :: string init_summary){ summary = init_summary; }
     void change_director(std :: string init_director){ director = init_director; }
+    void delete_comment(int comment_id);
+    void show_comments();
+
     int get_id(){ return id; }
     std :: string get_name(){ return name; }
     int get_rate(){ return rate; }
     int get_price(){ return price; }
     int get_pub_id(){ return pub_id; }
     void score(int score, int pro_id);
-    void add_comment(std :: string msg);
+    void add_comment(std :: string msg, int person_id);
+    int comments_count(){ return comments.size(); }
+    bool is_qualified(std :: vector<std :: string> words);
+    void view_film();
+    void view_for_recoms();
+
+    void view_comments();
+
+    Comment* find_comment(int comment_id);
+    int get_comment_id(){ return comment_id; }
+
 
     void show_film();
 
@@ -40,6 +56,8 @@ private:
     int pub_id;
     std :: vector<Comment*> comments;
     int comment_id;
+
+    int get_order(int comment_id);
 };
 
 #endif
